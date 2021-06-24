@@ -11,6 +11,7 @@ import humanize
 import pandas as pd
 from dateutil import parser
 from discord.ext import commands, tasks
+import os
 
 
 def is_trusted(ctx):
