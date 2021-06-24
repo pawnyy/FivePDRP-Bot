@@ -12,6 +12,7 @@ import pandas as pd
 from dateutil import parser
 from discord.ext import commands, tasks
 import os
+import sys
 
 
 def is_trusted(ctx):
@@ -475,7 +476,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.check(is_trusted)
     async def restart(self, ctx):
-        os.execv(__file__, sys.argv)
+        os.execv(sys.executable, ['python'] + sys.argv)
 
 
 def setup(bot):
