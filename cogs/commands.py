@@ -13,6 +13,11 @@ from dateutil import parser
 from discord.ext import commands, tasks
 
 
+def is_trusted(ctx):
+    trusted = [147475280699719680, 603591384062099477]
+    return ctx.author.id in trusted
+
+
 class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -467,6 +472,7 @@ class Commands(commands.Cog):
                 await ctx.send('Server seems to not be up right now. Try again later?')
 
     @commands.command()
+    @commands.check(is_trusted)
     async def restart(self, ctx):
         os.execv(__file__, sys.argv)
 
