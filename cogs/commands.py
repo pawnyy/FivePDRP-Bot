@@ -221,6 +221,9 @@ class Commands(commands.Cog):
             A list of all punishments of the user wrapped in a embed.
         """
         data = None
+        kicks = 0
+        warnings = 0
+        bans = 0
         try:
             user = await commands.UserConverter().convert(ctx, args)
         except commands.BadArgument or commands.CommandError:
@@ -262,6 +265,16 @@ class Commands(commands.Cog):
                                                                    f"**Moderator:** {row['mod']}\n"
                                                                    f"**Discord ID:** {mentioned}\n"
                                                                    f"**Reason:** {row['reason']}\n")
+
+
+                    if row['action'] == 'kicked':
+                        kicks += 1
+                    elif row['action'] == 'warned':
+                        warnings += 1
+                    elif 'ban' in row['action']:
+                        bans += 1
+
+                embed.set_footer(text = f'Warnings: {warnings} | Kicks: {kicks} | Bans: {bans}')
                 try:
                     await ctx.send(embed = embed)
                 except discord.HTTPException:
