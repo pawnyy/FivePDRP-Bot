@@ -37,7 +37,7 @@ class MyHelp(commands.HelpCommand):
             filtered = await self.filter_commands(_commands, sort = True)
             command_signatures = [self.get_command_signature(c) for c in filtered]
             if command_signatures:
-                cog_name = getattr(cog, "qualified_name", "No Category")
+                cog_name = getattr(cog, "qualified_name", "Misc.")
                 embed.add_field(name = cog_name, value = "\n".join(command_signatures).lower(), inline = False)
 
         channel = self.get_destination()
@@ -67,7 +67,7 @@ class MyHelp(commands.HelpCommand):
         filtered = await self.filter_commands(_commands, sort = True)
         command_signatures = [self.get_command_signature(c) for c in filtered]
         if command_signatures:
-            cog_name = getattr(cog, "qualified_name", "No Category")
+            cog_name = getattr(cog, "qualified_name", "Misc.")
             embed.add_field(name = cog_name, value = "\n".join(command_signatures), inline = False)
 
         channel = self.get_destination()
