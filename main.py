@@ -43,13 +43,17 @@ async def suggestion_discussion(message):
     links = re.findall(r'(https?://[^\s]+)', content)
     ctx = await bot.get_context(message)
     for url in links:
-        suggestion = await commands.MessageConverter().convert(ctx, url)
-        if suggestion.author.bot and suggestion.mentions:
-            user = suggestion.mentions[0]
-            embed = discord.Embed(title = f"{user.name}#{user.discriminator}", description = suggestion.content)
-            embed.set_footer(text = "FivePDRP Staff Team")
-            embed.set_thumbnail(url = user.avatar_url)
-            await message.channel.send(embed = embed)
+        try:
+            suggestion = await commands.MessageConverter().convert(ctx, url)
+            if suggestion.author.bot and suggestion.mentions:
+                user = suggestion.mentions[0]
+                embed = discord.Embed(title=f"{user.name}#{user.discriminator}", description=suggestion.content)
+                embed.set_footer(text="FivePDRP Staff Team")
+                embed.set_thumbnail(url=user.avatar_url)
+                await message.channel.send(embed=embed)
+        except commands.errors.MessageNotFound:
+            pass
+
 
 
 async def traceback_maker(err, advance: bool = True):
