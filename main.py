@@ -18,10 +18,10 @@ load_dotenv(find_dotenv(), override = True)
 channels = [804226896740483092, 804227342183432252, 811331455417581568, 843542427075870731]
 discussionChannels = [835946870253682748]
 TOKEN = os.environ.get("token")
-PREFIX = ['?', 'fivepdrp']
+PREFIX = '?'
 INTENTS = discord.Intents.all()
 ACTIVITY = discord.Game(name = 'with FivePDRP || Bot made by Indecision#7334')
-bot = classes.SubclassBot(command_prefix = PREFIX, intents = INTENTS, activity = ACTIVITY, case_insensitive = True,
+bot = classes.SubclassBot(command_prefix = commands.when_mentioned_or(PREFIX), intents = INTENTS, activity = ACTIVITY, case_insensitive = True,
                           strip_after_prefix = True)
 bot.ip = '147.135.127.111:30120'
 bot.count = 0
