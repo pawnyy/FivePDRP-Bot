@@ -491,6 +491,27 @@ class Commands(commands.Cog):
     async def restart(self, ctx):
         os.execv(sys.executable, ['python'] + sys.argv)
 
+    @commands.command()
+    @commands.has_any_role(803657811435192341, 781402142787371055)
+    async def addDiscord(self, ctx, name: str, member: discord.User):
+        """
+        A way to add discord ID's to users in the punishments table.
+
+        Args:
+            name: The username in the punishments table to change. **THIS HAS TO BE EXACTLY THE NAME.**
+            member: The discord user to add to the name.
+        """
+        async with asqlite.connect(r'utils/example.db') as conn:
+            async with conn.cursor() as cursor:
+                await cursor.execute('SELECT user FROM punishments WHERE user = ?', name)
+                data = await cursor.fetchone()
+                if data:
+                    await cursor.execute('UPDATE punishments SET discord = ? WHERE user = ?', ('discord:'+str(member.id), name))
+                    await ctx.send(f'Changed {name}\'s discord.')
+                else:
+                    await ctx.send('No users found with that name in the punishments database. Please make sure you type the EXACT name.')
+
+
 
 def setup(bot):
     bot.add_cog(Commands(bot))
