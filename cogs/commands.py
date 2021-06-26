@@ -489,7 +489,7 @@ class Commands(commands.Cog):
     @commands.command()
     @commands.check(is_trusted)
     async def restart(self, ctx):
-        os.execv(sys.executable, ['python'] + sys.argv)
+        os.execv(r'/usr/bin/python3', ['python'] + sys.argv)
 
     @commands.command()
     @commands.has_any_role(803657811435192341, 781402142787371055)
