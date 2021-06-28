@@ -37,7 +37,7 @@ class Commands(commands.Cog):
         pd.set_option('display.expand_frame_repr', False)
 
     @commands.command(aliases = ['userinfo'])
-    async def whois(self, ctx, *, arg):
+    async def whois(self, ctx, *, arg=''):
         """
         Get various information about a user.
 
@@ -50,7 +50,7 @@ class Commands(commands.Cog):
         def isint(argument: str):
             try:
                 int(argument)
-            except ValueError:
+            except:
                 return False
             else:
                 return float(argument).is_integer()
@@ -79,7 +79,7 @@ class Commands(commands.Cog):
                 member = await commands.MemberConverter().convert(ctx, arg)
             except commands.BadArgument:
                 pass
-            if arg is None:
+            if arg == '':
                 member = ctx.author
             if member is None:
                 async with asqlite.connect(r'utils/example.db') as conn:
@@ -220,6 +220,26 @@ class Commands(commands.Cog):
         Returns:
             A list of all punishments of the user wrapped in a embed.
         """
+        async def getUserName(arg: int):
+            a = arg
+            try:
+                print('uno')
+                a = await commands.MemberConverter().convert(ctx, str(arg))
+            except commands.BadArgument:
+                print('dos')
+                a = bot.get_user(arg)
+                if not a:
+                    print('hehe')
+                    a = await bot.fetch_user(arg)
+                    if a:
+                        print('lmfao')
+                        a = str(a)
+            try:
+                return a.mention
+            except:
+                print('coolio')
+                return a
+
         data = None
         kicks = 0
         warnings = 0
@@ -249,8 +269,9 @@ class Commands(commands.Cog):
                     if row['discord']:
                         try:
                             ID = row['discord'].replace('discord:', '')
-                            userr = self.bot.get_user(int(ID))
-                            mentioned = userr.mention
+                            mentioned = await getUserName(int(ID))
+                            if mentioned is None:
+                                mentioned = 'None found.'
                         except AttributeError:
                             mentioned = 'None found.'
                     else:
